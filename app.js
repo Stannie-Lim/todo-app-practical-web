@@ -38,12 +38,24 @@ app.post("/register", async (req, res) => {
     } else {
         try {
             await axios.post(`${API}/user`, { username: newUser });
+            loggedInUser.username = newUser;
             res.redirect("/user");
         } catch(err) {
             console.log(err);
         }
     }
     
+});
+
+app.get("/user", async (req, res) => {
+    try {
+        const token = (await axios.post(`${API}/auth`, { username: loggedInUser.username, headers: { 'content-type': 'application/json' } } )).data.token;
+        res.cookie("userToken", token);
+        const todos = (await axios.get(`${API}/todo-item`, { headers: { 'Authorization': token } } )).data;
+        res.render("user", { user: loggedInUser.username, list: todos } );
+    } catch(err) {
+        res.render("user", { user: loggedInUser.username, list: [] } );
+    }
 });
 
 app.post("/user", async (req, res) => {
@@ -91,4 +103,5 @@ app.post("/updateitem", async (req, res) => {
     }
 });
 
-app.listen(process.env.PORT, process.env.IP);
+// app.listen(process.env.PORT, process.env.IP);
+app.listen(3000);
