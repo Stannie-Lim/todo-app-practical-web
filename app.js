@@ -17,7 +17,7 @@ app.get("/", (req, res) => {
 });
 
 app.post("/", (req, res) => {
-    res.render("home", { loggedout: true });
+    res.render("home");
     res.clearCookie("userToken");
 });
 
