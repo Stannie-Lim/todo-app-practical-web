@@ -1,0 +1,50 @@
+<%- include('partials/header'); -%>
+
+    <div class="navingthis">
+        <a href="/" class="login">Welcome <%= user %>!</a>   
+
+        <form action="/" method="POST">
+            <button type="submit">Log out</button>
+        </form>
+    </div>
+
+    <div class="newitem">
+        <form action="/newitem" method="POST">
+            <input class="iteminput" name="item" type="text">
+            <button type="submit">Add new item</button>
+        </form>
+    </div>
+
+    <ul>
+        <% list.forEach(item => { %>
+            <% if(!item.deleted) { %>
+                <% if(item.completed) { %>
+                    <div class="listItem">
+                        <li class="completed"><%= item.content %></li> 
+                        <div class="buttons">
+                            <form action="/updateitem" method="POST">
+                                <input type="submit" name=<%= item.id %> value="Complete">
+                            </form>
+                            <form action="/deleteitem" method="POST">
+                                <input type="submit" name=<%= item.id %> value="Delete">
+                            </form>
+                        </div>
+                    </div>
+                <% } else { %>
+                    <div class="listItem">
+                        <li><%= item.content %></li> 
+                        <div class="buttons">
+                            <form action="/updateitem" method="POST">
+                                <input type="submit" name=<%= item.id %> value="Complete">
+                            </form>
+                            <form action="/deleteitem" method="POST">
+                                <input type="submit" name=<%= item.id %> value="Delete">
+                            </form>
+                        </div>
+                    </div>
+                <% } %>
+            <% } %>
+        <% }); %>
+    </ul>
+
+<%- include('partials/footer'); -%>

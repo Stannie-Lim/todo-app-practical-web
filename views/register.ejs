@@ -1,0 +1,19 @@
+<%- include('partials/header'); -%>
+
+    <a href="/" class="login">Welcome!</a>
+
+    <nav>
+        <a id="login" href="/login">Login</a>
+        <a id="register" href="/register">Register</a>
+    </nav>
+
+    <h1 class="loginregisters">Register</h1>
+
+    <form action="/register" method="POST">
+        <div class="userinputs">
+            <p>Username</p>
+            <input class="gettingusername" type="text" name="username">
+        </div>
+    </form>
+
+<%- include('partials/footer'); -%>
