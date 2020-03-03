@@ -29,12 +29,23 @@ app.get("/login", (req, res) => {
     res.render("login");
 });
 
+app.get("/plsregister", (req, res) => {
+    res.render("plsregister");
+});
+
+app.get("/plslogin", (req, res) => {
+    res.render("plslogin");
+});
+
+app.get("/notfound", (req, res) => {
+    res.render("notfound");
+});
+
 app.post("/register", async (req, res) => {
     const newUser = req.body.username;
     const allUsers = (await axios.get(`${API}/user`)).data;
     if(allUsers.filter(user => user.username === newUser).length !== 0) {
-        console.log("You are already registered. Please log in.");
-        res.redirect("/login");
+       res.redirect("plslogin");
     } else {
         try {
             await axios.post(`${API}/user`, { username: newUser });
@@ -44,10 +55,12 @@ app.post("/register", async (req, res) => {
             console.log(err);
         }
     }
-    
 });
 
 app.get("/user", async (req, res) => {
+    if(!loggedInUser.username) {
+        res.redirect("/notfound");
+    }
     try {
         const token = (await axios.post(`${API}/auth`, { username: loggedInUser.username, headers: { 'content-type': 'application/json' } } )).data.token;
         res.cookie("userToken", token);
@@ -61,12 +74,16 @@ app.get("/user", async (req, res) => {
 app.post("/user", async (req, res) => {
     loggedInUser.username = req.body.username;
     try {
+        const allUsers = (await axios.get(`${API}/user`)).data;
+        if(allUsers.filter(user => user.username === loggedInUser.username).length === 0) {
+            res.redirect("/plsregister");
+        }
         const token = (await axios.post(`${API}/auth`, { username: loggedInUser.username, headers: { 'content-type': 'application/json' } } )).data.token;
         res.cookie("userToken", token);
         const todos = (await axios.get(`${API}/todo-item`, { headers: { 'Authorization': token } } )).data;
         res.render("user", { user: loggedInUser.username, list: todos } );
     } catch(err) {
-        res.render("user", { user: loggedInUser.username } );
+        res.render("user", { user: loggedInUser.username, list: [] } );
     }
 });
 
@@ -103,5 +120,5 @@ app.post("/updateitem", async (req, res) => {
     }
 });
 
-app.listen(process.env.PORT, process.env.IP);
-// app.listen(3000);
+// app.listen(process.env.PORT, process.env.IP);
+app.listen(3000);
