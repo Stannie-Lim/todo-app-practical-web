@@ -14,6 +14,7 @@ const API = 'https://hunter-todo-api.herokuapp.com'
 
 app.get("/", (req, res) => {
     res.render("home");
+    res.clearCookie("userToken");
 });
 
 app.post("/", (req, res) => {

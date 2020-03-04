@@ -15,36 +15,48 @@
         </form>
     </div>
 
-    <ul>
-        <% list.forEach(item => { %>
-            <% if(!item.deleted) { %>
-                <% if(item.completed) { %>
-                    <div class="listItem">
-                        <li class="completed"><%= item.content %></li> 
-                        <div class="buttons">
-                            <form action="/updateitem" method="POST">
-                                <input type="submit" name=<%= item.id %> value="Complete">
-                            </form>
-                            <form action="/deleteitem" method="POST">
-                                <input type="submit" name=<%= item.id %> value="Delete">
-                            </form>
+    <div class="deletedandnotdeleted">
+        <ul>
+            <h1>Not deleted</h1>
+            <% list.forEach(item => { %>
+                <% if(!item.deleted) { %>
+                    <% if(item.completed) { %>
+                        <div class="listItem">
+                            <li class="completed"><%= item.content %></li> 
+                            <div class="buttons">
+                                <form action="/updateitem" method="POST">
+                                    <input type="submit" name=<%= item.id %> value="Complete">
+                                </form>
+                                <form action="/deleteitem" method="POST">
+                                    <input type="submit" name=<%= item.id %> value="Delete">
+                                </form>
+                            </div>
                         </div>
-                    </div>
-                <% } else { %>
-                    <div class="listItem">
-                        <li><%= item.content %></li> 
-                        <div class="buttons">
-                            <form action="/updateitem" method="POST">
-                                <input type="submit" name=<%= item.id %> value="Complete">
-                            </form>
-                            <form action="/deleteitem" method="POST">
-                                <input type="submit" name=<%= item.id %> value="Delete">
-                            </form>
+                    <% } else { %>
+                        <div class="listItem">
+                            <li><%= item.content %></li> 
+                            <div class="buttons">
+                                <form action="/updateitem" method="POST">
+                                    <input type="submit" name=<%= item.id %> value="Complete">
+                                </form>
+                                <form action="/deleteitem" method="POST">
+                                    <input type="submit" name=<%= item.id %> value="Delete">
+                                </form>
+                            </div>
                         </div>
-                    </div>
+                    <% } %>
                 <% } %>
-            <% } %>
-        <% }); %>
-    </ul>
+            <% }); %>
+        </ul>
+
+        <ul>
+            <h1>Deleted</h1>
+            <% list.forEach(item => { %>
+                <% if(item.deleted) { %>
+                    <li><%= item.content %></li>
+                <% } %>
+            <% }); %>
+        </ul>
+    </div>
 
 <%- include('partials/footer'); -%>
