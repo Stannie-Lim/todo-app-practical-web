@@ -20,31 +20,21 @@
             <h1>Not deleted</h1>
             <% list.forEach(item => { %>
                 <% if(!item.deleted) { %>
-                    <% if(item.completed) { %>
-                        <div class="listItem">
+                    <div class="listItem">
+                        <% if(item.completed) { %> 
                             <li class="completed"><%= item.content %></li> 
-                            <div class="buttons">
-                                <form action="/updateitem" method="POST">
-                                    <input type="submit" name=<%= item.id %> value="Complete">
-                                </form>
-                                <form action="/deleteitem" method="POST">
-                                    <input type="submit" name=<%= item.id %> value="Delete">
-                                </form>
-                            </div>
-                        </div>
-                    <% } else { %>
-                        <div class="listItem">
+                        <% } else { %>
                             <li><%= item.content %></li> 
-                            <div class="buttons">
-                                <form action="/updateitem" method="POST">
-                                    <input type="submit" name=<%= item.id %> value="Complete">
-                                </form>
-                                <form action="/deleteitem" method="POST">
-                                    <input type="submit" name=<%= item.id %> value="Delete">
-                                </form>
-                            </div>
+                        <% } %>
+                        <div class="buttons">
+                            <form action="/updateitem" method="POST">
+                                <input type="submit" name=<%= item.id %> value="Complete">
+                            </form>
+                            <form action="/deleteitem" method="POST">
+                                <input type="submit" name=<%= item.id %> value="Delete">
+                            </form>
                         </div>
-                    <% } %>
+                    </div>
                 <% } %>
             <% }); %>
         </ul>
