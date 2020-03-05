@@ -9,17 +9,19 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.set("view engine", "ejs");
 
-const loggedInUser = {};
+let loggedInUser = {};
 const API = 'https://hunter-todo-api.herokuapp.com'
 
 app.get("/", (req, res) => {
     res.render("home");
     res.clearCookie("userToken");
+    loggedInUser = {};
 });
 
 app.post("/", (req, res) => {
     res.render("home");
     res.clearCookie("userToken");
+    loggedInUser = {};
 });
 
 app.get("/register", (req, res) => {
